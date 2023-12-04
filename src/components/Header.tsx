@@ -40,7 +40,7 @@ const Header = () => {
   const activeSmSize =
     "block py-2 px-3 rounded-sm text-yellow-300 bg-gray-500 dark:bg-gray-800 dark:text-yellow-300";
   return (
-    <div className="m-0 p-0 sticky top-0">
+    <div className="m-0 p-0 sticky top-0 z-10">
       <nav className="p-4 pb-1 flex justify-between items-center border-b dark:border-b-0 bg-white  dark:bg-gray-800">
         <NavLink className="flex items-center" to={"/"}>
           <svg
@@ -101,8 +101,8 @@ const Header = () => {
             className="flex items-center p-2 mr-2 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:border-gray-600  dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             onClick={() => handleDarkModeToggle()}
           >
-            {!darkMode && <img className="w-6 h-6" src={darkModeImage} />}
-            {darkMode && <img className="w-6 h-6" src={lightModeImage} />}
+            {!darkMode && <img className="w-6 h-6" src={darkModeImage} alt="dark icon"/>}
+            {darkMode && <img className="w-6 h-6" src={lightModeImage} alt="light icon" />}
           </button>
           <button
             type="button"
