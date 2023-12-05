@@ -5,6 +5,7 @@ export const useFetchMovieData = (urlEndpoint : string, page: number): IMovieDat
     const [data, setData] = useState<IMovieInfo[]>([]);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
     const [loadingData, setLoadingData] = useState<boolean>(true);
+    const prevUrlEndPoint = useRef<string>();
     const options = {
         method: 'GET',
         headers: {
@@ -14,12 +15,17 @@ export const useFetchMovieData = (urlEndpoint : string, page: number): IMovieDat
     };
     
     useEffect(() => {
+        console.log("Inside useEffect 2")
         setData([]);
     },[urlEndpoint])
 
     useEffect(() => {
         async function fetchMoviesData(urlEndPoint:string) {
+            if(prevUrlEndPoint.current !== urlEndPoint && page !== 1) {
+                return;
+            }
             const responseData = await fetch(`https://api.themoviedb.org/3/movie/${urlEndPoint}?&page=${page}`, options);
+            prevUrlEndPoint.current = urlEndPoint;
             const moveData: any = await responseData.json();
             if(moveData.total_pages) {
                 if(moveData.total_pages > page) {
@@ -33,6 +39,7 @@ export const useFetchMovieData = (urlEndpoint : string, page: number): IMovieDat
                 setLoadingData(false);
             }
         }
+        console.log("Inside useEffect 3")
         fetchMoviesData(urlEndpoint);
         
     },[urlEndpoint, page])

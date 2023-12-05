@@ -9,13 +9,16 @@ interface MovieListProps {
 
 const MovieList = ({ urlEndPoint }: MovieListProps) => {
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const { data: movieData, hasNextPage, loadingData } = useFetchMovieData(urlEndPoint, pageNumber);
+  const dummyLoaderList = [1,2,3];
   
   useEffect(() => {
     window.scrollTo(0,0);
+    console.log("Inside useEffect 1")
     setPageNumber(1);
+    console.log("page number ",pageNumber)
   },[urlEndPoint]);
-
+  
+  const { data: movieData, hasNextPage, loadingData } = useFetchMovieData(urlEndPoint, pageNumber);
   
   const lastElementObserver = useRef<IntersectionObserver>();
   const lasElementRef = useCallback((node: HTMLDivElement) => {
@@ -44,7 +47,7 @@ const MovieList = ({ urlEndPoint }: MovieListProps) => {
             </div>
           );
         })}
-        {/* {dummyLoaderList?.map((listItem, index) => <LoaderCard/>)} */}
+        {dummyLoaderList?.map((listItem, index) => <LoaderCard key={index}/>)}
       </div>
     </main>
   );
