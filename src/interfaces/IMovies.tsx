@@ -9,5 +9,6 @@ export interface IMovieInfo {
 export interface IMovieDataResponse {
     data: IMovieInfo[],
     hasNextPage: boolean,
-    loadingData: boolean
+    loadingData: boolean,
+    fetchNextSetOfData: () => void
 }

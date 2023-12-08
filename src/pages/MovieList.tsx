@@ -8,17 +8,13 @@ interface MovieListProps {
 }
 
 const MovieList = ({ urlEndPoint }: MovieListProps) => {
-  const [pageNumber, setPageNumber] = useState<number>(1);
   const dummyLoaderList = [1,2,3];
   
   useEffect(() => {
     window.scrollTo(0,0);
-    console.log("Inside useEffect 1")
-    setPageNumber(1);
-    console.log("page number ",pageNumber)
   },[urlEndPoint]);
   
-  const { data: movieData, hasNextPage, loadingData } = useFetchMovieData(urlEndPoint, pageNumber);
+  const { data: movieData, hasNextPage, loadingData, fetchNextSetOfData } = useFetchMovieData(urlEndPoint);
   
   const lastElementObserver = useRef<IntersectionObserver>();
   const lasElementRef = useCallback((node: HTMLDivElement) => {
@@ -28,7 +24,7 @@ const MovieList = ({ urlEndPoint }: MovieListProps) => {
     lastElementObserver.current = new IntersectionObserver((entries) => {
       if(entries[0].isIntersecting) {
         console.log("found element")
-        setPageNumber((pageNumber) => pageNumber+1);
+        fetchNextSetOfData();
       }
     })
     if(node) {
@@ -42,7 +38,7 @@ const MovieList = ({ urlEndPoint }: MovieListProps) => {
       <div className="flex flex-wrap justify-center gap-7 mt-8">
         {movieData?.map((movie, index) => {
           return (
-            <div ref={movieData.length === index+1 ? lasElementRef : undefined} className={`p-0 m-0`} key={urlEndPoint + movie.id}>
+            <div ref={movieData.length === index+1 ? lasElementRef : undefined} className={`p-0 m-0 ${movie.id}`} key={urlEndPoint + movie.id}>
               <MovieCard movieDetails={movie}></MovieCard>
             </div>
           );
